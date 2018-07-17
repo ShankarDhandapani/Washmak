@@ -5,5 +5,6 @@
     <string name="enter_email">"மின்னஞ்சல் முகவரி"</string>
     <string name="password">"கடவுச்சொல்"</string>
     <string name="login">"உள் நுழை"</string>
-    <string name="or">"அல்லது"</string>
+    <string name="sign_in_with">"மற்ற உள் நுழை தளம்"</string>
+
 </resources>
