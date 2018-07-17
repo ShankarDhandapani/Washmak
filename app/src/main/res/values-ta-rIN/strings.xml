@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"வாஷ்மேக்"</string>
+    <string name="company_name">"சீன்ஸ் குரூஸ் லேப்ஸ்"</string>
+    <string name="enter_email">"மின்னஞ்சல் முகவரி"</string>
+    <string name="password">"கடவுச்சொல்"</string>
+    <string name="login">"உள் நுழை"</string>
+    <string name="or">"அல்லது"</string>
+</resources>

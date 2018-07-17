@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Washmak</string>
-    <string name="company_name">CinGrous</string>
+    <string name="company_name">CinGrous Labs</string>
+    <string name="enter_email">Enter email</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+    <string name="or">Or</string>
+    <string name="google_signin_icon">google_signin_icon</string>
 </resources>
