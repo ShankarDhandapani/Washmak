@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WorkerdashbordActvity">
+    tools:context=".WorkerdashbordActvity"
+    android:id="@+id/main_liner_layout">
 
     <ListView
         android:id="@+id/lv_from_workeract"

@@ -9,5 +9,6 @@
 
     <color name="colorPrimaryText">#ffffff</color>
     <color name="colorAccentText">#000000</color>
+    <color name="lightblue">#ADD8E6</color>
     <color name="color_signin_background">#9fa8da</color>
 </resources>

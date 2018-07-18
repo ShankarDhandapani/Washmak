@@ -6,4 +6,6 @@
     <string name="login">login</string>
     <string name="google_signin_icon">google_signin_icon</string>
     <string name="sign_in_with">Sign in with</string>
+    <string name="logo">logo</string>
+    <string name="close">close</string>
 </resources>
