@@ -15,6 +15,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,9 +57,34 @@ public class WorkerdashbordActvity extends AppCompatActivity {
                 AlertDialog dialog = alert.create();
                 dialog.show();
 
+                customView.findViewById(R.id.float_btn_qr_scan_from_details_wash).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new IntentIntegrator(WorkerdashbordActvity.this).setCaptureActivity(ScannerActivity.class).initiateScan();
+                    }
+                });
+
 
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //We will get scan results here
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        //check for null
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                //show dialogue with result
+                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            // This is important, otherwise the result will not be passed to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

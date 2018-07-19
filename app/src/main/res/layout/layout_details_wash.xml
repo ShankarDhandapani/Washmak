@@ -29,6 +29,7 @@
             android:layout_height="wrap_content" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_btn_qr_scan_from_details_wash"
             android:layout_weight="10"
             android:layout_gravity="bottom|center"
             android:layout_width="60dp"
@@ -36,9 +37,5 @@
             android:src="@drawable/icon_qr_scanner" />
 
     </LinearLayout>
-
-
-
-
 
 </RelativeLayout>
