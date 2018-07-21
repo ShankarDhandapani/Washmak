@@ -18,7 +18,11 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".WorkerdashbordActvity" />
-        <activity android:name=".ScannerActivity"></activity>
+        <activity android:name=".ScannerActivity" />
+        <activity
+            android:name=".ManagerActivity"
+            android:label="@string/title_activity_manager"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

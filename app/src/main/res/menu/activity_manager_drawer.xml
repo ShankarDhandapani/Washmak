@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_user_details_from_drawer"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="@string/user_details" />
+        <item
+            android:id="@+id/nav_add_worker_from_drawer"
+            android:icon="@drawable/ic_person_add_black_24dp"
+            android:title="@string/add_worker" />
+        <item
+            android:id="@+id/nav_work_details_from_drawer"
+            android:icon="@drawable/ic_assignment_ind_black_24dp"
+            android:title="@string/worker_details" />
+        <item
+            android:id="@+id/nav_logout_from_drawer"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:title="@string/logout"/>
+    </group>
+
+</menu>
