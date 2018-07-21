@@ -1,11 +1,13 @@
 package com.washmak.cingrous.washmak;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -52,27 +54,6 @@ public class ManagerActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.manager, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -98,15 +79,26 @@ public class ManagerActivity extends AppCompatActivity
                 ft.replace(R.id.layout_frame_from_content_manager, new WorkerDetailsFragement());
                 break;
             case R.id.nav_logout_from_drawer:
-                mAuth.signOut();
-                startActivity(new Intent(ManagerActivity.this, LoginActivity.class));
-                finish();
+                logout();
                 break;
         }
         ft.commit();
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    private void logout() {
+        AlertDialog alertDialog = new AlertDialog.Builder(ManagerActivity.this)
+                .setTitle(R.string.logout)
+                .setMessage("Are you sure you want to Logout?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.signOut();
+                        startActivity(new Intent(ManagerActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }).setNegativeButton("No", null)
+                .show();
     }
 }

@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -27,11 +31,13 @@ import java.util.Arrays;
 public class WorkerdashbordActvity extends AppCompatActivity {
 
     PopupWindow popupWindow;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workerdashbord_actvity);
+        mAuth = FirebaseAuth.getInstance();
 
         final ListView listview = findViewById(R.id.lv_from_workeract);
         String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
@@ -86,5 +92,38 @@ public class WorkerdashbordActvity extends AppCompatActivity {
             // This is important, otherwise the result will not be passed to the fragment
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_in_workerdashboard_actvity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout_from_worker_dash:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logout() {
+        AlertDialog alertDialog = new AlertDialog.Builder(WorkerdashbordActvity.this)
+                .setTitle(R.string.logout)
+                .setMessage("Are you sure you want to Logout?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.signOut();
+                        startActivity(new Intent(WorkerdashbordActvity.this, LoginActivity.class));
+                        finish();
+                    }
+                }).setNegativeButton("No", null)
+                .show();
     }
 }

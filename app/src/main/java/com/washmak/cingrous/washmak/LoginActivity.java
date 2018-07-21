@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                                 assert user != null;
                                 updateUI(user);
                             } else {
-                                updateUI(null);
+                                Toast.makeText(LoginActivity.this, "Authentication Failed!!", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -56,8 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
 
