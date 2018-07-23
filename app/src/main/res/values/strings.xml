@@ -23,4 +23,13 @@
     <string name="add_worker">Add Worker</string>
     <string name="worker_details">Worker Details</string>
     <string name="logout">LogOut</string>
+    <string name="name">Name</string>
+    <string name="place">Place</string>
+    <string name="time">Time</string>
+    <string name="time_pattern">HH:MM</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="workerimageview">WorkerImageView</string>
+    <string name="job_assigned">Job Assigned</string>
+    <string name="create_account">Create Account</string>
 </resources>
