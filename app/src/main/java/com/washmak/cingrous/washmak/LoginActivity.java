@@ -71,8 +71,10 @@ public class LoginActivity extends AppCompatActivity {
         String Uid = currentUser.getUid();
         if (Uid.equals("c1LaIw9sU2hc51w3FsZ2BS47HLt1")){
             startActivity(new Intent(LoginActivity.this, ManagerActivity.class));
+            Toast.makeText(LoginActivity.this, "Manager Login", Toast.LENGTH_LONG).show();
         }else {
             startActivity(new Intent(LoginActivity.this, WorkerdashbordActvity.class));
+            Toast.makeText(LoginActivity.this, "Worker Login", Toast.LENGTH_LONG).show();
         }
         finish();
     }
