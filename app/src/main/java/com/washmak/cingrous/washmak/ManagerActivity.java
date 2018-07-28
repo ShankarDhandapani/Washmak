@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -101,4 +102,5 @@ public class ManagerActivity extends AppCompatActivity
                 }).setNegativeButton("No", null)
                 .show();
     }
+
 }

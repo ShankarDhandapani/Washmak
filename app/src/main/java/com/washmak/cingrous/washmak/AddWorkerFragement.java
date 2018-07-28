@@ -1,7 +1,6 @@
 package com.washmak.cingrous.washmak;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +29,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.washmak.cingrous.washmak.modelclasses.AddWorkerModel;
+
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
@@ -44,6 +45,8 @@ import static android.app.Activity.RESULT_OK;
 import static android.support.constraint.Constraints.TAG;
 
 public class AddWorkerFragement extends Fragment {
+
+
     final Calendar c = Calendar.getInstance();
     int hr = c.get(Calendar.HOUR_OF_DAY);
     int min = c.get(Calendar.MINUTE);
@@ -51,22 +54,21 @@ public class AddWorkerFragement extends Fragment {
     private static Bitmap bitmap;
     private ImageButton imgview;
     public static final int REQUEST_IMAGE = 100;
-    private FirebaseAuth myAuthRef;
-    private FirebaseStorage myStorage;
-    private DatabaseReference myDBRef;
 
-    public AddWorkerFragement() {
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        FirebaseAuth myAuthRef = FirebaseAuth.getInstance();
+        // DB and Storage Not Working
+
+        //private FirebaseStorage myStorage = FirebaseStorage.getInstance();
+        // FirebaseFirestore myDBRef = FirebaseFirestore.getInstance();
+
         final View view = inflater.inflate(R.layout.fragement_add_worker, container, false);
         from_time = view.findViewById(R.id.time_from_from_add_details);
         to_time = view.findViewById(R.id.time_to_from_add_details);
-        myAuthRef = FirebaseAuth.getInstance();
-       // myDBRef = FirebaseDatabase.getInstance().getReference();
 
         imgview = view.findViewById(R.id.worker_photo_at_add_worker_tab_in_manager_login);
         Button create_account_from_manager = view.findViewById(R.id.create_account_button_at_add_worker_tab_in_manager_login);
@@ -78,6 +80,23 @@ public class AddWorkerFragement extends Fragment {
         final TextInputEditText worker_pass = view.findViewById(R.id.worker_password_from_add_worker);
         final TextInputEditText worker_con_pass = view.findViewById(R.id.worker_con_password_from_add_worker);
 
+
+        create_account_from_manager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String wr_name = worker_name.getText().toString().trim();
+                String wr_address = worker_address.getText().toString().trim();
+                String wr_email = worker_email.getText().toString().trim();
+                String wr_phono = worker_phone_number.getText().toString().trim();
+                String wr_pass = worker_pass.getText().toString().trim();
+                String wr_con_pass = worker_con_pass.getText().toString().trim();
+
+
+                // All the DB link Function auth, Db, storage...
+                pushData(wr_name, wr_address, wr_phono, wr_email, wr_pass, wr_con_pass);
+
+            }
+        });
 
 
         view.findViewById(R.id.set_time_from_from_add_details).setOnClickListener(new View.OnClickListener() {
@@ -115,19 +134,6 @@ public class AddWorkerFragement extends Fragment {
             }
         });
 
-        create_account_from_manager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String wr_name, wr_address, wr_phono, wr_email, wr_password, wr_conpass;
-                wr_name = worker_name.getText().toString().trim();
-                wr_address = worker_address.getText().toString().trim();
-                wr_phono = worker_phone_number.getText().toString().trim();
-                wr_email = worker_email.getText().toString().trim();
-                wr_password = worker_pass.getText().toString().trim();
-                wr_conpass = worker_con_pass.getText().toString().trim();
-                pushData(wr_name, wr_address, wr_phono, wr_email, wr_password, wr_conpass);
-            }
-        });
 
         return view;
 
@@ -143,50 +149,58 @@ public class AddWorkerFragement extends Fragment {
 
     private void pushData(String wr_name, String wr_address, String wr_phono, String wr_email, String wr_password, String wr_conpass) {
 
+        if (wr_password.equals(wr_conpass)){
+            /*// set profile pic - Not working due to ref
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            assert bitmap != null;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] bytes = baos.toByteArray();
 
-        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        assert bitmap != null;
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] bytes = baos.toByteArray();
+            StorageReference ImagesRef = myStorage.getReference().child("images/worker"+wr_name+wr_phono+".jpg");
+            ImagesRef.putBytes(bytes).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    // Toast.makeText(getContext(), "Uploaded the Image", Toast.LENGTH_LONG).show();
 
-        StorageReference mountainImagesRef = myStorage.getReference().child("images/worker"+wr_name+wr_phono+".jpg");
-        mountainImagesRef.putBytes(bytes).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                Toast.makeText(getContext(), "Uploaded the Image", Toast.LENGTH_LONG).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Can't Upload the Image", Toast.LENGTH_LONG).show();
-            }
-        });*/
-
-
-        myAuthRef.createUserWithEmailAndPassword(wr_email, wr_password).addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    FirebaseUser user = myAuthRef.getCurrentUser();
-                    //Toast.makeText(getContext(), "Worker Added", Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(getContext(), "Something Wrong!!...", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Toast.makeText(getContext(), "Can't Upload the Image", Toast.LENGTH_LONG).show();
+                }
+            });*/
 
-        /*AddWorkerModel newWorker = new AddWorkerModel(wr_name, wr_address, wr_phono, wr_email);
+            /*// Create User - Is working
+            myAuthRef.createUserWithEmailAndPassword(wr_email, wr_password).addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        FirebaseUser user = myAuthRef.getCurrentUser();
+                        //Toast.makeText(getContext(), "Worker Added", Toast.LENGTH_LONG).show();
+                    }else {
+                        //Toast.makeText(getContext(), "Something Wrong!!...", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });*/
 
-        myDBRef.child("Worker").setValue(newWorker).addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getContext(), "DataAdded", Toast.LENGTH_LONG).show();
-            }
-        });
-*/
-
+            // push to database - Not working due to ref
+          /*  AddWorkerModel newWorker = new AddWorkerModel(wr_name, wr_address, wr_phono, wr_email);
+           // Toast.makeText(getContext(), "line183", Toast.LENGTH_LONG).show();
+            myDBRef.collection("DataBase").add(newWorker).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Toast.makeText(getContext(), "Account Created", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Can't Created", Toast.LENGTH_LONG).show();
+                }
+            });*/
+        }else {
+            Toast.makeText(getContext(), "Pass Worng", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
