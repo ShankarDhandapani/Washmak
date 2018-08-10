@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.washmak.cingrous.washmak.listViewAdapter.ListViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,8 +48,9 @@ public class WorkerdashbordActvity extends AppCompatActivity {
                 "Android", "iPhone", "WindowsMobile" };
 
         final ArrayList<String> list = new ArrayList<>(Arrays.asList(values));
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(WorkerdashbordActvity.this, android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
+        ListViewAdapter listViewAdapter = new ListViewAdapter(WorkerdashbordActvity.this, list);
+        //final ArrayAdapter<String> adapter = new ArrayAdapter<>(WorkerdashbordActvity.this, R.layout.list_view_items, list);
+        listview.setAdapter(listViewAdapter);
 
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

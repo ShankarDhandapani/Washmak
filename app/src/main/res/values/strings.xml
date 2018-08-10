@@ -35,6 +35,9 @@
     <string name="email_id">Email Id</string>
     <string name="phone_number">Phone Number</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="worker_type">Worker Type</string>
+    <string name="worker">Worker</string>
+    <string name="manager">Manager</string>
 
 
 </resources>

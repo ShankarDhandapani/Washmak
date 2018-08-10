@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "361407634073",
+    "firebase_url": "https://washmak-c6a0b.firebaseio.com",
+    "project_id": "washmak-c6a0b",
+    "storage_bucket": "washmak-c6a0b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361407634073:android:fb4887e4abf72736",
+        "android_client_info": {
+          "package_name": "com.washmak.cingrous.washmak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361407634073-g22u1spcim8as0tetso145latrvh3r4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.washmak.cingrous.washmak",
+            "certificate_hash": "1126787af74a5c7645b64791da0ac8b4494eb1a8"
+          }
+        },
+        {
+          "client_id": "361407634073-2u6rh5k9ilpipa3hqumhkstgnakgkq50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXzAhhy1foivBlV6W4XUBb1JkJOrZmHWA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361407634073-2u6rh5k9ilpipa3hqumhkstgnakgkq50.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

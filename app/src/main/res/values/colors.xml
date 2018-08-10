@@ -11,5 +11,8 @@
     <color name="colorAccentText">#000000</color>
     <color name="lightblue">#ADD8E6</color>
     <color name="transparent_blue">#322100c8</color>
+    <color name="transparent_red">#88FF0000</color>
+    <color name="transparent_yellow">#88FFFF00</color>
+    <color name="transparent_green">#88008000</color>
     <color name="color_signin_background">#9fa8da</color>
 </resources>

@@ -2,10 +2,9 @@ package com.washmak.cingrous.washmak;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,10 +15,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private FirebaseAuth mAuth;
-    private EditText email_from_login, password_from_login;
+    private TextInputEditText email_from_login, password_from_login;
 
 
     @Override
@@ -35,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                showProgression(LoginActivity.this).show();
+
                 String email = email_from_login.getText().toString().trim();
                 String pass = password_from_login.getText().toString().trim();
 
@@ -47,12 +48,14 @@ public class LoginActivity extends AppCompatActivity {
                                 assert user != null;
                                 updateUI(user);
                             } else {
-                                Toast.makeText(LoginActivity.this, "Authentication Failed!!", Toast.LENGTH_LONG).show();
+                                showProgression(LoginActivity.this).dismiss();
+                                showAlertDialog("Authentication Failed!", LoginActivity.this);
                             }
                         }
                     });
                 }else {
-                    Toast.makeText(LoginActivity.this, "Email and Password can't be empty", Toast.LENGTH_LONG).show();
+                    showProgression(LoginActivity.this).dismiss();
+                    showAlertDialog("Email and Password can't be empty", LoginActivity.this);
                 }
             }
         });
