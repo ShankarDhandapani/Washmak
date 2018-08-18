@@ -1,4 +1,4 @@
-package com.washmak.cingrous.washmak.FragementClasses;
+package com.washmak.cingrous.washmak.fragementclasses;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -60,23 +58,6 @@ public class WorkerDetailsFragement extends Fragment {
                     }
                 });
         return mainview;
-
-
-
-        /*myDBRef.collection("Employee")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-
-                            }
-                        } else {
-                            Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });*/
     }
 
     @Override

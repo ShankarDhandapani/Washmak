@@ -1,4 +1,4 @@
-package com.washmak.cingrous.washmak.FragementClasses;
+package com.washmak.cingrous.washmak.fragementclasses;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

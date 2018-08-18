@@ -1,6 +1,5 @@
 package com.washmak.cingrous.washmak.modelclasses;
 
-import java.util.Map;
 
 public class AddWorkerModel {
     private String name;

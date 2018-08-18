@@ -1,4 +1,4 @@
-package com.washmak.cingrous.washmak.FragementClasses;
+package com.washmak.cingrous.washmak.fragementclasses;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -84,14 +84,16 @@ public class AddWorkerFragement extends Fragment {
         from_time = view.findViewById(R.id.time_from_from_add_details);
         to_time = view.findViewById(R.id.time_to_from_add_details);
         con_pass_field = view.findViewById(R.id.til_password_confirm);
-        RadioGroup gender = view.findViewById(R.id.gender_at_add_student);
-        int selectedId = gender.getCheckedRadioButtonId();
-        final RadioButton radioSexButton = view.findViewById(selectedId);
+        final RadioGroup type = view.findViewById(R.id.gender_at_add_student);
 
 
         create_account_from_manager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                int selectedId = type.getCheckedRadioButtonId();
+                RadioButton radioSexButton = view.findViewById(selectedId);
+
                 String wr_name = worker_name.getText().toString().trim();
                 String wr_address = worker_address.getText().toString().trim();
                 String wr_email = worker_email.getText().toString().trim();
@@ -101,6 +103,7 @@ public class AddWorkerFragement extends Fragment {
                 String wr_from_time = from_time.getText().toString().trim();
                 String wr_to_time = to_time.getText().toString().trim();
                 String wr_type = radioSexButton.getText().toString().trim();
+
 
 
                 // All the DB link Function auth, Db, storage...

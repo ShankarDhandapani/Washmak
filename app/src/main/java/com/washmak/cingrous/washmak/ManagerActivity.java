@@ -11,15 +11,13 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.webkit.WebView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.washmak.cingrous.washmak.FragementClasses.AddWorkerFragement;
-import com.washmak.cingrous.washmak.FragementClasses.UserDeatilsFragement;
-import com.washmak.cingrous.washmak.FragementClasses.WorkerDetailsFragement;
+import com.washmak.cingrous.washmak.fragementclasses.AddWorkerFragement;
+import com.washmak.cingrous.washmak.fragementclasses.UserDeatilsFragement;
+import com.washmak.cingrous.washmak.fragementclasses.WorkerDetailsFragement;
 
 public class ManagerActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {

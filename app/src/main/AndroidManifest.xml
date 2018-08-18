@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,14 +24,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"/>
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".WorkerdashbordActvity" />
-        <activity android:name=".ScannerActivity" />
+            android:name=".WorkerdashbordActvity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ScannerActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ManagerActivity"
             android:label="@string/title_activity_manager"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".firebasemessage.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
