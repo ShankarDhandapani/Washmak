@@ -35,16 +35,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnected();
     }
 
-    protected boolean isGPSEnabled(){
-        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
-        return Objects.requireNonNull(manager).isProviderEnabled( LocationManager.GPS_PROVIDER);
-    }
-
-    public void showAlertDialog(String message, Context context){
+    public void showAlertDialog(String message, String click,  Context context){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage(message);
         final AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialogBuilder.setNegativeButton("Try Again!", null);
+        alertDialogBuilder.setNegativeButton(click, null);
         alertDialog.show();
     }
 

@@ -23,7 +23,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         private void sendRegistrationToServer(String refreshedToken) {
             DatabaseReference myTokenRef = FirebaseDatabase.getInstance().getReference()
                     .child("MesaageToken");
-            myTokenRef.setValue(refreshedToken);
+            myTokenRef.push().setValue(refreshedToken);
         }
 
 }

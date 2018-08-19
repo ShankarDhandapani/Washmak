@@ -8,11 +8,6 @@
     tools:context=".ManagerActivity"
     tools:showIn="@layout/app_bar_manager">
 
-    <!--<WebView
-        android:id="@+id/dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-
     <FrameLayout
         android:id="@+id/layout_frame_from_content_manager"
         android:layout_width="match_parent"

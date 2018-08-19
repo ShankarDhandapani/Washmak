@@ -29,7 +29,7 @@
                 android:weightSum="100">
 
                 <ImageView
-                    android:src="@drawable/cingrous"
+                    android:src="@mipmap/ic_launcher"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:contentDescription="@string/company_name" />
@@ -79,25 +79,6 @@
                     android:text="@string/login"
                     android:visibility="visible" />
 
-                <TextView
-                    android:paddingTop="10dp"
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:textSize="17sp"
-                    android:text="@string/sign_in_with"
-                    android:textColor="@color/colorAccentText"
-                    android:visibility="visible" />
-
-                <ImageButton
-                    android:id="@+id/btn_google_login_from_login"
-                    android:paddingTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryText"
-                    android:src="@drawable/icons_google"
-                    android:contentDescription="@string/google_signin_icon" />
 
             </LinearLayout>
 

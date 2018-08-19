@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -38,12 +40,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.washmak.cingrous.washmak.ManagerActivity;
 import com.washmak.cingrous.washmak.R;
 import com.washmak.cingrous.washmak.modelclasses.AddWorkerModel;
 
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -60,7 +64,9 @@ public class AddWorkerFragement extends Fragment {
     public static final int REQUEST_IMAGE = 100;
     FirebaseAuth myAuthRef;
     TextInputLayout con_pass_field;
-    TextInputEditText worker_name, worker_address, worker_phone_number, worker_email, worker_pass, worker_con_pass, worker_type;
+    TextInputEditText worker_name, worker_address, worker_phone_number, worker_email, worker_pass, worker_con_pass;
+    ProgressDialog progressDialog;
+
 
 
     @Nullable
@@ -69,8 +75,7 @@ public class AddWorkerFragement extends Fragment {
 
         myAuthRef = FirebaseAuth.getInstance();
         final View view = inflater.inflate(R.layout.fragement_add_worker, container, false);
-
-
+        progressDialog = showProgression(getContext());
 
         imgview = view.findViewById(R.id.worker_photo_at_add_worker_tab_in_manager_login);
         Button create_account_from_manager = view.findViewById(R.id.create_account_button_at_add_worker_tab_in_manager_login);
@@ -102,12 +107,21 @@ public class AddWorkerFragement extends Fragment {
                 String wr_con_pass = worker_con_pass.getText().toString().trim();
                 String wr_from_time = from_time.getText().toString().trim();
                 String wr_to_time = to_time.getText().toString().trim();
-                String wr_type = radioSexButton.getText().toString().trim();
 
 
 
                 // All the DB link Function auth, Db, storage...
-                pushData(wr_name, wr_address, wr_phono, wr_email, wr_pass, wr_con_pass, wr_from_time, wr_to_time, wr_type);
+                if (!wr_name.equals("") && !wr_address.equals("") && !wr_email.equals("") &&
+                        !wr_phono.equals("") && !wr_pass.equals("") && !wr_con_pass.equals("") &&
+                        !wr_from_time.equals("") && !wr_to_time.equals("") && !radioSexButton.getText().toString().equals("")){
+
+                    String wr_type = radioSexButton.getText().toString().trim();
+
+
+                    pushData(wr_name, wr_address, wr_phono, wr_email, wr_pass, wr_con_pass, wr_from_time, wr_to_time, wr_type);
+                }else {
+                    showAlertDialog("Enter All the Fields!", getContext(), "Try Again");
+                }
 
             }
         });
@@ -162,8 +176,7 @@ public class AddWorkerFragement extends Fragment {
                           final String wr_from_time,
                           final String wr_to_time,
                           final String wr_type) {
-
-        showProgression(getContext()).show();
+        progressDialog.show();
         final FirebaseFirestore myDBRef = FirebaseFirestore.getInstance();
         final FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -183,34 +196,53 @@ public class AddWorkerFragement extends Fragment {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         byte[] bytes = baos.toByteArray();
 
-                        StorageReference myStorageRef = storage.getReference().child("Employee/"+wr_name+wr_phono+".jpg");
+                        final StorageReference myStorageRef = storage.getReference().child("Employee/"+wr_name+wr_phono+".jpg");
                         myStorageRef.putBytes(bytes).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                AddWorkerModel newWorker = new AddWorkerModel(
-                                        wr_name, wr_address,
-                                        wr_phono, wr_email,
-                                        wr_from_time, wr_to_time, wr_type
-                                );
-                                myDBRef.collection("Employee")
-                                        .document(newuserid)
-                                        .set(newWorker)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                showAlertDialog(wr_name+" Added Successfully", getContext());
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
+                                myStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        showAlertDialog("Database Error !", getContext());
+                                    public void onSuccess(Uri uri) {
+                                        String image_uri = uri.toString().trim();
+                                        AddWorkerModel newWorker = new AddWorkerModel(
+                                                wr_name, wr_address,
+                                                wr_phono, wr_email,
+                                                wr_from_time, wr_to_time, wr_type,
+                                                image_uri
+                                                );
+                                        myDBRef.collection("Employee")
+                                                .document(newuserid)
+                                                .set(newWorker)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        progressDialog.dismiss();
+                                                        new AlertDialog.Builder(getContext())
+                                                                .setTitle("Success")
+                                                                .setMessage(wr_name+" Added Successfully")
+                                                                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialog, int which) {
+                                                                        startActivity(new Intent(getContext(), ManagerActivity.class));
+                                                                    }
+                                                                })
+                                                                .show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                progressDialog.dismiss();
+                                                showAlertDialog("Database Error !", getContext(), "Try Again!");
+                                            }
+                                        });
                                     }
                                 });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                showAlertDialog("Storage Error !", getContext());
+                                progressDialog.dismiss();
+                                showAlertDialog("Storage Error !", getContext(), "Try Again!");
                             }
                         });
                     }
@@ -218,16 +250,15 @@ public class AddWorkerFragement extends Fragment {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    showAlertDialog("Can't Create Employee", getContext());
+                    progressDialog.dismiss();
+                    showAlertDialog("Can't Create Employee", getContext(), "Try Again!");
                 }
             });
         }else {
+            progressDialog.dismiss();
             con_pass_field.setError("Enter Same Password!!");
-            showAlertDialog("Password Worrng", getContext());
+            showAlertDialog("Password Wrong", getContext(), "Try Again!");
         }
-
-        showProgression(getContext()).dismiss();
-
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -287,10 +318,10 @@ public class AddWorkerFragement extends Fragment {
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         return progressDoalog;
     }
-    public void showAlertDialog(String message, Context context){
+    public void showAlertDialog(String message, Context context, String btn){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage(message);
-        alertDialogBuilder.setNegativeButton("Try Again", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 worker_name.setText(""); worker_address.setText("");

@@ -23,10 +23,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FIREBASE MESSAGE";
     private static int count = 0;
+
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        //Displaying data in log
-        //It is optional
         String string = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Notification Message TOKEN: " + string);
         Log.d(TAG, "Notification Message TITLE: " + Objects.requireNonNull(remoteMessage.getNotification()).getTitle());
@@ -36,23 +36,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         sendNotification(remoteMessage.getNotification().getTitle(),
                 remoteMessage.getNotification().getBody(), remoteMessage.getData());
     }
-    //This method is only generating push notification
-    private void sendNotification(String messageTitle, String messageBody, Map<String, String> row) {
+
+    private void sendNotification(String title, String body, Map<String, String> data) {
         PendingIntent contentIntent = null;
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.washmaklogo))
-                .setSmallIcon(R.drawable.washmaklogo)
-                .setContentTitle(messageTitle)
-                .setContentText(messageBody)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background))
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(title)
+                .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(contentIntent);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        assert notificationManager != null;
         notificationManager.notify(count, notificationBuilder.build());
         count++;
     }
-
 }

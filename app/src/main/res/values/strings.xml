@@ -38,6 +38,13 @@
     <string name="worker_type">Worker Type</string>
     <string name="worker">Worker</string>
     <string name="manager">Manager</string>
+    <string name="profile">Profile</string>
+    <string name="sensor_id">Sensor Id</string>
+    <string name="floor_number">Floor Number</string>
+    <string name="block_number">Block Number</string>
+    <string name="add_details">Add Details</string>
+    <string name="location">Location</string>
+    <string name="add_sensor">Add Sensor</string>
 
 
 </resources>

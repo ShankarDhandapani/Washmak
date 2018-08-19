@@ -1,6 +1,8 @@
 package com.washmak.cingrous.washmak.modelclasses;
 
 
+import java.util.Map;
+
 public class AddWorkerModel {
     private String name;
     private String address;
@@ -9,11 +11,12 @@ public class AddWorkerModel {
     private String from_time;
     private String to_time;
     private String type;
+    private String image;
 
     public AddWorkerModel() {
     }
 
-    public AddWorkerModel(String name, String address, String phonenumber, String email, String from_time, String to_time, String type) {
+    public AddWorkerModel(String name, String address, String phonenumber, String email, String from_time, String to_time, String type, String image) {
         this.name = name;
         this.address = address;
         this.phonenumber = phonenumber;
@@ -21,6 +24,20 @@ public class AddWorkerModel {
         this.from_time = from_time;
         this.to_time = to_time;
         this.type = type;
+        this.image = image;
+    }
+
+    public AddWorkerModel(Map<String, Object> data) {
+
+        this.name = (String) data.get("name");
+        this.address = (String) data.get("address");
+        this.phonenumber = (String) data.get("phonenumber");
+        this.email = (String) data.get("email");
+        this.from_time = (String) data.get("from_time");
+        this.to_time = (String) data.get("to_time");
+        this.type = (String) data.get("type");
+        this.image = (String) data.get("image");
+
     }
 
     public String getName() {
@@ -77,5 +94,13 @@ public class AddWorkerModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
