@@ -9,13 +9,19 @@ export const onTokenCreate = functions.database
     const data = snapshot.val()
     const boolean_token = data.boolean_token
     const sensor_Id = data.sensor_id
-    console.log(`New token with Boolean : ${boolean_token} from sensor: ${sensor_Id}`);
+    console.log(`New token with Boolean: ${boolean_token} from sensor: ${sensor_Id}`);
 
     var clientMessageToken = [
         "cFPKYO3QBR0:APA91bGPyAOgTrCpC086PIXwdR01u2qdRSXp_5dKrfseMNceFL8SE-GYj9rO2ppoKzuyEdpX69CAxGwVDmx2Y3CNl1BgkaEekCPhQ9PHqgAgxr_LMkUdGVqztIvd-5b53eh37xF5ANkgg8CCej6VtMgKDvSfR-mB_g",
         "dThEUqC4hQA:APA91bG369yt-wruKNxMkM2VKr62qPdoXmWpMBLj2BkNYYqW21xTixLQqSmaNSybxGJc3oH7YYWRvAh2UwQcbDu-WOQ0bU77fIqZuhK4aNMiTT7P_g3YJiTiOhr3lYGBnbox0Ed-z2FJS4uOBHYDXBuEqOfwgBwbKA"
     ];
 
+    // admin.database().ref('MesaageToken/{phoneID}').on('value', function(dbsnap){
+    //     var key = dbsnap.val();
+    //     clientMessageToken.push(key.tokenId)
+    // });
+    
+    
     var payload = {
         notification: {
             title: "New Job Assigned",
