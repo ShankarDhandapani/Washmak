@@ -12,11 +12,12 @@ public class AddWorkerModel {
     private String to_time;
     private String type;
     private String image;
+    private String messageId;
 
     public AddWorkerModel() {
     }
 
-    public AddWorkerModel(String name, String address, String phonenumber, String email, String from_time, String to_time, String type, String image) {
+    public AddWorkerModel(String name, String address, String phonenumber, String email, String from_time, String to_time, String type, String image,String messageId) {
         this.name = name;
         this.address = address;
         this.phonenumber = phonenumber;
@@ -25,6 +26,7 @@ public class AddWorkerModel {
         this.to_time = to_time;
         this.type = type;
         this.image = image;
+        this.messageId = messageId;
     }
 
     public AddWorkerModel(Map<String, Object> data) {
@@ -102,5 +104,13 @@ public class AddWorkerModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 }

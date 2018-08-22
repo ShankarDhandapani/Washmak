@@ -46,7 +46,6 @@ dependencies {
     /*Added QR Library Here */
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
 
-
     //picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'

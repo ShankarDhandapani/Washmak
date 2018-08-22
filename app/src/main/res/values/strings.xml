@@ -45,6 +45,12 @@
     <string name="add_details">Add Details</string>
     <string name="location">Location</string>
     <string name="add_sensor">Add Sensor</string>
+    <string name="title_activity_supervisor">SupervisorActivity</string>
+    <string name="assign_job">Assign Job</string>
+    <string name="select_user">Select User</string>
+    <string name="supervisor">Supervisor</string>
+    <string name="user_image">User Image</string>
+    <string name="scan_qr_code">Scan QR Code</string>
 
 
 </resources>

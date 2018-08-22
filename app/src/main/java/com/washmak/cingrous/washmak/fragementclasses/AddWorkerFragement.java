@@ -18,7 +18,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -44,10 +44,8 @@ import com.washmak.cingrous.washmak.ManagerActivity;
 import com.washmak.cingrous.washmak.R;
 import com.washmak.cingrous.washmak.modelclasses.AddWorkerModel;
 
-
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
-import java.util.Map;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -64,9 +62,11 @@ public class AddWorkerFragement extends Fragment {
     public static final int REQUEST_IMAGE = 100;
     FirebaseAuth myAuthRef;
     TextInputLayout con_pass_field;
-    TextInputEditText worker_name, worker_address, worker_phone_number, worker_email, worker_pass, worker_con_pass;
+    TextInputEditText worker_name, worker_address,
+            worker_phone_number, worker_email,
+            worker_pass, worker_con_pass, worker_job;
     ProgressDialog progressDialog;
-
+    RadioGroup type;
 
 
     @Nullable
@@ -89,7 +89,22 @@ public class AddWorkerFragement extends Fragment {
         from_time = view.findViewById(R.id.time_from_from_add_details);
         to_time = view.findViewById(R.id.time_to_from_add_details);
         con_pass_field = view.findViewById(R.id.til_password_confirm);
-        final RadioGroup type = view.findViewById(R.id.gender_at_add_student);
+        worker_job = view.findViewById(R.id.worker_job_from_add_worker);
+        type = view.findViewById(R.id.gender_at_add_student);
+
+        type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.worker_radio_button){
+                    LinearLayout mRlayout = new LinearLayout(getContext());
+                    LinearLayout.LayoutParams mRparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    TextInputEditText myEditText = new TextInputEditText(Objects.requireNonNull(getContext()));
+                    myEditText.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                    myEditText.setLayoutParams(mRparams);
+                    mRlayout.addView(myEditText);
+                }
+            }
+        });
 
 
         create_account_from_manager.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +140,7 @@ public class AddWorkerFragement extends Fragment {
 
             }
         });
+
 
 
         view.findViewById(R.id.set_time_from_from_add_details).setOnClickListener(new View.OnClickListener() {
@@ -205,10 +221,11 @@ public class AddWorkerFragement extends Fragment {
                                     public void onSuccess(Uri uri) {
                                         String image_uri = uri.toString().trim();
                                         AddWorkerModel newWorker = new AddWorkerModel(
-                                                wr_name, wr_address,
-                                                wr_phono, wr_email,
-                                                wr_from_time, wr_to_time, wr_type,
-                                                image_uri
+                                                wr_name+"", wr_address+"",
+                                                wr_phono+"", wr_email+"",
+                                                wr_from_time+"", wr_to_time+"",
+                                                wr_type+"", image_uri+"",
+                                                ""
                                                 );
                                         myDBRef.collection("Employee")
                                                 .document(newuserid)
@@ -217,7 +234,7 @@ public class AddWorkerFragement extends Fragment {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
                                                         progressDialog.dismiss();
-                                                        new AlertDialog.Builder(getContext())
+                                                        new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                                                                 .setTitle("Success")
                                                                 .setMessage(wr_name+" Added Successfully")
                                                                 .setPositiveButton("Done", new DialogInterface.OnClickListener() {
@@ -286,7 +303,7 @@ public class AddWorkerFragement extends Fragment {
         }
     }
     private void updateTime(int hours, int mins, int i) {
-        String timeSet = "";
+        String timeSet;
     if (hours > 12) {
         hours -= 12;
         timeSet = "PM";
@@ -297,7 +314,7 @@ public class AddWorkerFragement extends Fragment {
         timeSet = "PM";
     else
         timeSet = "AM";
-        String minutes = "";
+        String minutes;
         if (mins < 10)
             minutes = "0" + mins;
         else

@@ -2,11 +2,10 @@ package com.washmak.cingrous.washmak;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Map;
 
@@ -33,6 +33,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         progressDialog = showProgression(LoginActivity.this);
+        final String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
 
 
@@ -58,18 +59,29 @@ public class LoginActivity extends BaseActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                             if (task.isSuccessful()){
-                                                DocumentSnapshot document = task.getResult();
-                                                if (document.exists()) {
-                                                    Map<String, Object> data = document.getData();
-                                                    assert data != null;
-                                                    if(data.get("type").equals("Manager")) {
-                                                        updateUI(1);
-                                                    } else if(data.get("type").equals("Worker")){
-                                                        updateUI(0);
-                                                    }
+                                                final DocumentSnapshot document = task.getResult();
+                                                myDBRef.collection("Employee")
+                                                        .document(user.getUid())
+                                                        .update("messageId", refreshedToken)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (document.exists()) {
+                                                                    Map<String, Object> data = document.getData();
+                                                                    assert data != null;
+                                                                    if(data.get("type").equals("Manager")) {
+                                                                        updateUI("Manager");
+                                                                    } else if(data.get("type").equals("Worker")){
+                                                                        updateUI("Worker");
+                                                                    } else if (data.get("type").equals("Supervisor")){
+                                                                        updateUI("Supervisor");
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+
                                                 }
                                             }
-                                        }
                                     });
 
                                 }
@@ -87,13 +99,17 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void updateUI(int i) {
-        if (i == 1){
-            startActivity(new Intent(LoginActivity.this, ManagerActivity.class));
-            Toast.makeText(LoginActivity.this, "Manager Login", Toast.LENGTH_LONG).show();
-        }else {
-            startActivity(new Intent(LoginActivity.this, WorkerdashbordActvity.class));
-            Toast.makeText(LoginActivity.this, "Worker Login", Toast.LENGTH_LONG).show();
+    private void updateUI(String i) {
+        if (i != null) {
+            if (i.equals("Manager")) {
+                startActivity(new Intent(LoginActivity.this, ManagerActivity.class));
+            }
+            if (i.equals("Worker")) {
+                startActivity(new Intent(LoginActivity.this, WorkerdashbordActvity.class));
+            }
+            if (i.equals("Supervisor")){
+                startActivity(new Intent(LoginActivity.this, SupervisorActivity.class));
+            }
         }
         finish();
     }

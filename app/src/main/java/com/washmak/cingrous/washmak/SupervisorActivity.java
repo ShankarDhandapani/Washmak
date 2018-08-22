@@ -11,58 +11,47 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.washmak.cingrous.washmak.fragementclasses.AddWorkerFragement;
+import com.washmak.cingrous.washmak.fragementclasses.AssignJobFragement;
 import com.washmak.cingrous.washmak.fragementclasses.SensorDetailsFragement;
 import com.washmak.cingrous.washmak.fragementclasses.UserDeatilsFragement;
+import com.washmak.cingrous.washmak.fragementclasses.WelcomeFragement;
 import com.washmak.cingrous.washmak.fragementclasses.WorkerDetailsFragement;
 
-import java.util.Objects;
-
-
-public class ManagerActivity extends BaseActivity
+public class SupervisorActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseAuth mAuth;
-   /* WebView dashboard;*/
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager);
+        setContentView(R.layout.activity_supervisor);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mAuth =  FirebaseAuth.getInstance();
 
-        /*dashboard = findViewById(R.id.dashboard);
-        dashboard.getSettings().setJavaScriptEnabled(true);
-        dashboard.loadUrl("https://github.com/");*/
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout_manager);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_supervisor);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View header = navigationView.getHeaderView(0);
-        TextView nameView = header.findViewById(R.id.nav_current_user);
-        TextView emailView = header.findViewById(R.id.nav_current_user_email);
+        @SuppressLint("CommitTransaction") FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.layout_frame_from_content_supervisor, new WelcomeFragement());
+        ft.commit();
 
-        nameView.setText(mAuth.getUid());
-        emailView.setText(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail());
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout_manager);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_supervisor);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -82,43 +71,45 @@ public class ManagerActivity extends BaseActivity
         return true;
     }
 
-    private void NavigateOnClick(int id){
+    private void NavigateOnClick(int id) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         switch (id){
-            case R.id.nav_user_details_from_manager_drawer:
-                ft.replace(R.id.layout_frame_from_content_manager, new UserDeatilsFragement());
+            case R.id.nav_user_details_from_supervisor_drawer:
+                ft.replace(R.id.layout_frame_from_content_supervisor, new UserDeatilsFragement());
                 break;
-            case R.id.nav_add_worker_from_manager_drawer:
-                ft.replace(R.id.layout_frame_from_content_manager, new AddWorkerFragement());
+            case R.id.nav_add_worker_from_supervisor_drawer:
+                ft.replace(R.id.layout_frame_from_content_supervisor, new AddWorkerFragement());
                 break;
-            case R.id.nav_work_details_from_manager_drawer:
-                ft.replace(R.id.layout_frame_from_content_manager, new WorkerDetailsFragement());
+            case R.id.nav_work_details_from_supervisor_drawer:
+                ft.replace(R.id.layout_frame_from_content_supervisor, new WorkerDetailsFragement());
                 break;
-            case R.id.nav_sensor_details_from_manager_drawer:
-                ft.replace(R.id.layout_frame_from_content_manager, new SensorDetailsFragement());
+            case R.id.nav_sensor_details_from_supervisor_drawer:
+                ft.replace(R.id.layout_frame_from_content_supervisor, new SensorDetailsFragement());
                 break;
-            case R.id.nav_logout_from_manager_drawer:
+            case R.id.nav_assign_job_from_supervisor_drawer:
+                ft.replace(R.id.layout_frame_from_content_supervisor, new AssignJobFragement());
+                break;
+            case R.id.nav_logout_from_supervisor_drawer:
                 logout();
                 break;
         }
         ft.commit();
-        DrawerLayout drawer = findViewById(R.id.drawer_layout_manager);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_supervisor);
         drawer.closeDrawer(GravityCompat.START);
     }
 
     private void logout() {
-        new AlertDialog.Builder(ManagerActivity.this)
+        new AlertDialog.Builder(SupervisorActivity.this)
                 .setTitle(R.string.logout)
                 .setMessage("Are you sure you want to Logout?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mAuth.signOut();
-                        startActivity(new Intent(ManagerActivity.this, LoginActivity.class));
+                        startActivity(new Intent(SupervisorActivity.this, LoginActivity.class));
                         finish();
                     }
                 }).setNegativeButton("No", null)
                 .show();
     }
-
 }

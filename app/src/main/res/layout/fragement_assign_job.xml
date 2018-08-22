@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="16dp"
+    android:layout_marginHorizontal="16dp"
+    android:weightSum="4"
+    android:paddingTop="50dp"
+    tools:targetApi="o">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <AutoCompleteTextView
+            android:id="@+id/select_user_from_assign_job"
+            android:hint="@string/select_user"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Spinner
+        android:id="@+id/select_job_from_assign_job"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="50dp"
+        android:weightSum="30">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="10"
+            android:text="@string/from"
+            android:textColor="@color/colorAccentText"
+            android:textSize="20sp"
+            tools:ignore="NestedWeights" />
+
+        <TextView
+            android:id="@+id/time_from_from_assign_job"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="10"
+            android:text="@string/time_pattern"
+            android:textColor="@color/colorAccent"
+            android:textSize="19dp" />
+
+        <ImageButton
+            android:id="@+id/set_time_from_from_assign_job"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="10"
+            android:background="@color/zxing_transparent"
+            android:contentDescription="@string/time"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_access_time_black_24dp" />
+    </LinearLayout>
+
+    <Button
+        android:layout_weight="1"
+        android:text="@string/assign_job"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryText"
+        android:id="@+id/assign_job_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
